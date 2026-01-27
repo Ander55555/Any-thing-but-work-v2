@@ -683,11 +683,17 @@ const games = [
             .filter(g => g !== undefined);
     }
 
-    function createCard(game) {
+function createCard(game) {
         const card = document.createElement('article');
         card.className = 'game';
+
+        // LOGIC: Use the custom icon if it exists, otherwise use the favicon
+        const iconSrc = game.icon ? game.icon : getFavicon(game.url);
+
         card.innerHTML = `
-            <div class="thumb"><img src="${getFavicon(game.url)}" alt=""></div>
+            <div class="thumb">
+                <img src="${iconSrc}" alt="" onerror="this.src='${getFavicon(game.url)}'">
+            </div>
             <div>
                 <div class="title">${game.name}</div>
                 <div class="meta">${new URL(game.url).hostname.replace('www.', '')}</div>
